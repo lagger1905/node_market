@@ -76,11 +76,18 @@ class Manager {
         100) /
       95;
     let lastPrice = price.toFixed(2);
+    let percentTemp = (lastPrice * 0.95 * 0.95 * this.rateUSDT) / this.rateCNY;
+    let gapPercent = percentTemp - itemBuff.priceBuffLatest.priceBuff;
+    let percentDep = Number(
+      gapPercent / itemBuff.priceBuffLatest.priceBuff
+    ).toFixed(2);
     let result = {
       id: item.id || item.item_id,
       name: item.market_hash_name,
       lastPrice,
       updatedAt: itemBuff.updatedAt,
+      percentDep: percentDep * 100,
+      priceBuff: itemBuff.priceBuffLatest.priceBuff,
     };
     return result;
   };
@@ -92,12 +99,13 @@ class Manager {
         setTimeout(async () => {
           let getPrice = this.getPrice(element);
           if (getPrice) {
+            // console.log(getPrice);
             let price = getPrice.lastPrice * 1000;
             let depUrl = `https://market.csgo.com/api/v2/add-to-sale?key=${this.apiKey}&id=${getPrice.id}&price=${price}&cur=${this.currency}`;
             let response = await axios.get(depUrl);
             if (response.data.success) {
               helper.log(
-                `Listed item ${getPrice.name} | ${getPrice.lastPrice} $`
+                `Listed item ${getPrice.name} | ${getPrice.lastPrice}$ | ${getPrice.percentDep}% | ${getPrice.priceBuff}CNY`
               );
             } else {
               helper.log(
@@ -107,13 +115,6 @@ class Manager {
           }
         }, 1000 * 3 * index);
       });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  depositItem = () => {
-    try {
     } catch (error) {
       console.log(error);
     }
