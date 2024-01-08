@@ -11,12 +11,14 @@ class Manager {
   }
   initCode = async () => {
     try {
-      let add = await axios.post(`http://103.173.254.162:5000/item/additem`, {
+      await axios.post(`http://103.173.254.162:5000/item/additem`, {
         name: { id64: config.apiKey, platform: "market" },
       });
-      await this.loadDatabase();
-      await this.loadCurrency();
-      this.listInvent();
+      setInterval(async () => {
+        await this.loadDatabase();
+        await this.loadCurrency();
+        this.listInvent();
+      }, 1000 * 60 * 30);
     } catch (error) {
       console.log(error);
     }
