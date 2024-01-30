@@ -4,7 +4,7 @@ const config = require("../config.json");
 const API_KEY = config.apiKey;
 module.exports = {
   apiList: {
-    databaseUrl: "http://103.173.254.162:5000/item/api/buff/items",
+    databaseUrl: "http://103.173.254.162:5000/item/api/v1/buff/items",
     currencyUrl: "http://103.173.254.162:3000/get-currency",
     inventUrl: `https://market.csgo.com/api/v2/my-inventory/?key=${API_KEY}`,
   },

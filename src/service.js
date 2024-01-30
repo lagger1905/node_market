@@ -29,6 +29,7 @@ class Manager {
 
   loadDatabase = async () => {
     try {
+      console.log(`Load Database ...`);
       let response = await axios.get(helper.apiList.databaseUrl);
       this.database = response.data.data;
     } catch (error) {
@@ -37,6 +38,7 @@ class Manager {
   };
   loadCurrency = async () => {
     try {
+      console.log(`Load Currency ...`);
       let response = await axios.get(helper.apiList.currencyUrl);
       if (response?.data?.success !== 200) {
         throw "Error response";
@@ -53,6 +55,7 @@ class Manager {
     return new Promise(async (resolve, reject) => {
       try {
         let inventList;
+        console.log(`Load invent ...`);
         const response = await axios.get(this.apiList.inventAPI);
         if (response.data.success) {
           inventList = response.data.items;
